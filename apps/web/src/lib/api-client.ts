@@ -49,5 +49,7 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ title: "New chat" })
     }),
-  getConversation: (id: string) => request<ConversationDetail>(`/conversations/${id}`)
+  getConversation: (id: string) => request<ConversationDetail>(`/conversations/${id}`),
+  deleteConversation: (id: string) =>
+    request<{ ok: boolean }>(`/conversations/${id}`, { method: "DELETE" })
 };

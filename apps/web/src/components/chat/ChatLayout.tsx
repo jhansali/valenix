@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, MessageSquarePlus } from "lucide-react";
+import { LogOut, MessageSquarePlus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
@@ -20,6 +20,7 @@ export function ChatLayout({
   const { user, loading } = useAuth({ required: true });
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [creatingChat, setCreatingChat] = useState(false);
+  const [deletingChatId, setDeletingChatId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && user) {
@@ -46,6 +47,25 @@ export function ChatLayout({
     router.replace("/login");
   }
 
+  async function deleteChat(conversationId: string) {
+    if (deletingChatId) return;
+
+    const confirmed = window.confirm("Delete this chat?");
+    if (!confirmed) return;
+
+    setDeletingChatId(conversationId);
+    try {
+      await api.deleteConversation(conversationId);
+      setConversations((current) => current.filter((conversation) => conversation.id !== conversationId));
+      if (activeConversationId === conversationId) {
+        router.replace("/chat");
+      }
+      router.refresh();
+    } finally {
+      setDeletingChatId(null);
+    }
+  }
+
   if (loading || !user) {
     return <div className="grid min-h-screen place-items-center text-sm text-gray-500">Loading...</div>;
   }
@@ -69,17 +89,35 @@ export function ChatLayout({
 
         <nav className="flex-1 overflow-y-auto p-2">
           {conversations.map((conversation) => (
-            <Link
+            <div
               key={conversation.id}
-              href={`/chat/${conversation.id}`}
-              className={`block truncate rounded-md px-3 py-2 text-sm ${
+              className={`group flex items-center gap-1 rounded-md ${
                 activeConversationId === conversation.id
-                  ? "bg-white font-medium text-ink shadow-sm"
+                  ? "bg-white text-ink shadow-sm"
                   : "text-gray-600 hover:bg-white"
               }`}
             >
-              {conversation.title}
-            </Link>
+              <Link
+                href={`/chat/${conversation.id}`}
+                prefetch={false}
+                className={`min-w-0 flex-1 truncate px-3 py-2 text-sm ${
+                  activeConversationId === conversation.id ? "font-medium" : ""
+                }`}
+                onMouseEnter={() => router.prefetch(`/chat/${conversation.id}`)}
+                onFocus={() => router.prefetch(`/chat/${conversation.id}`)}
+              >
+                {conversation.title}
+              </Link>
+              <button
+                onClick={() => deleteChat(conversation.id)}
+                className="mr-1 grid h-7 w-7 shrink-0 place-items-center rounded-md text-gray-400 opacity-100 hover:bg-red-50 hover:text-red-600 md:opacity-0 md:group-hover:opacity-100"
+                disabled={deletingChatId === conversation.id}
+                title="Delete chat"
+                aria-label={`Delete ${conversation.title}`}
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
           ))}
         </nav>
 
@@ -135,6 +173,17 @@ export function ChatLayout({
           >
             <LogOut size={16} />
           </button>
+          {activeConversationId ? (
+            <button
+              onClick={() => deleteChat(activeConversationId)}
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-md text-gray-600"
+              disabled={deletingChatId === activeConversationId}
+              title="Delete chat"
+              aria-label="Delete chat"
+            >
+              <Trash2 size={16} />
+            </button>
+          ) : null}
         </div>
         {children}
       </main>
