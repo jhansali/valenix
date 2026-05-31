@@ -32,7 +32,7 @@ docker-compose.yml
 Prerequisites:
 
 - Docker and Docker Compose.
-- Node.js 20+ if running the frontend outside Docker.
+- Node.js 20+ and pnpm if running the frontend outside Docker.
 - Python 3.12+ if running the backend outside Docker.
 
 Create a local environment file if you want to override defaults:
@@ -100,8 +100,9 @@ Run the frontend:
 
 ```bash
 cd apps/web
-npm install
-npm run dev
+corepack enable
+pnpm install
+pnpm dev
 ```
 
 ## Chat Streaming
