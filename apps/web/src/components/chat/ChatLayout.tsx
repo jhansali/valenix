@@ -50,6 +50,8 @@ export function ChatLayout({
     return <div className="grid min-h-screen place-items-center text-sm text-gray-500">Loading...</div>;
   }
 
+  const userInitial = (user.name || user.email).trim().charAt(0).toUpperCase();
+
   return (
     <div className="flex min-h-screen bg-white">
       <aside className="hidden w-72 shrink-0 border-r border-line bg-panel md:flex md:flex-col">
@@ -82,15 +84,23 @@ export function ChatLayout({
         </nav>
 
         <div className="border-t border-line p-3">
-          <div className="mb-3 truncate text-xs text-gray-500">{user?.email}</div>
-          <button
-            onClick={logout}
-            className="flex h-9 w-full items-center justify-center gap-2 rounded-md text-sm text-gray-600 hover:bg-white"
-            title="Log out"
-          >
-            <LogOut size={16} />
-            Log out
-          </button>
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-sm font-semibold text-white">
+              {userInitial}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-sm font-medium text-gray-700">{user.name || "Valenix user"}</div>
+              <div className="truncate text-xs text-gray-500">{user.email}</div>
+            </div>
+            <button
+              onClick={logout}
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-gray-500 hover:bg-white hover:text-ink"
+              title="Log out"
+              aria-label="Log out"
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
         </div>
       </aside>
 
