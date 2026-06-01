@@ -28,34 +28,49 @@ function LogoMark({ className = "" }: { className?: string }) {
       aria-hidden="true"
       className={className}
       fill="none"
-      viewBox="0 0 64 64"
+      viewBox="0 0 100 100"
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        <linearGradient id="valenix-mark" x1="11" x2="54" y1="10" y2="58" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#13C8FF" />
-          <stop offset="0.52" stopColor="#6D5CFF" />
-          <stop offset="1" stopColor="#9B2BFF" />
+        <linearGradient id="valenix-mark" x1="12" x2="88" y1="10" y2="90" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#60A5FA" />
+          <stop offset="0.56" stopColor="#6366F1" />
+          <stop offset="1" stopColor="#8B5CF6" />
         </linearGradient>
+        <filter id="valenix-mark-glow" x="-35%" y="-35%" width="170%" height="170%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
       <path
-        d="M12 15h11.7c3 0 5.7 1.7 7.1 4.3L39 35.1l8.1-16c1.3-2.5 3.8-4.1 6.6-4.1H58L42.5 49H31.8L12 15Z"
-        fill="url(#valenix-mark)"
+        d="M50 86C26 66 12 45 12 26c0-16 16-18 26-4 10 14 12 34 12 34s2-20 12-34c10-14 26-12 26 4 0 19-14 40-38 60Z"
+        filter="url(#valenix-mark-glow)"
+        opacity="0.24"
+        stroke="url(#valenix-mark)"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="9"
       />
       <path
-        d="M11 42.7c8.7 4 27.5-1.1 40.9-10.9"
-        stroke="#8B35FF"
+        d="M50 86C26 66 12 45 12 26c0-16 16-18 26-4 10 14 12 34 12 34s2-20 12-34c10-14 26-12 26 4 0 19-14 40-38 60Z"
+        stroke="url(#valenix-mark)"
         strokeLinecap="round"
-        strokeWidth="4"
+        strokeLinejoin="round"
+        strokeWidth="7"
       />
       <path
-        d="M8.7 35.6c11.4-9.7 28-14.8 43.4-13.2"
-        stroke="#1FC7FF"
+        d="M38 22c7 10 10 22 12 34 2-12 5-24 12-34"
+        stroke="url(#valenix-mark)"
         strokeLinecap="round"
-        strokeOpacity="0.75"
-        strokeWidth="2"
+        strokeDasharray="5 5"
+        strokeOpacity="0.76"
+        strokeWidth="4.4"
       />
-      <path d="M39.6 7.5 42 13l5.7 2-5.7 2.1-2.4 5.5-2.4-5.5-5.7-2.1 5.7-2 2.4-5.5Z" fill="#7DD3FC" />
+      <circle cx="50" cy="25" fill="#60A5FA" r="4.8" />
+      <path d="m72 8 2.5 5.9 6 2.1-6 2.2L72 24l-2.6-5.8-6-2.2 6-2.1L72 8Z" fill="#A78BFA" />
     </svg>
   );
 }
