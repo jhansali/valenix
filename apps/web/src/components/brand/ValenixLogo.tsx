@@ -33,9 +33,9 @@ function LogoMark({ className = "" }: { className?: string }) {
     >
       <defs>
         <linearGradient id="valenix-mark" x1="12" x2="88" y1="10" y2="90" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#60A5FA" />
-          <stop offset="0.56" stopColor="#6366F1" />
-          <stop offset="1" stopColor="#8B5CF6" />
+          <stop stopColor="#00D5FF" />
+          <stop offset="0.56" stopColor="#7C3AED" />
+          <stop offset="1" stopColor="#FF4FD8" />
         </linearGradient>
         <filter id="valenix-mark-glow" x="-35%" y="-35%" width="170%" height="170%">
           <feGaussianBlur stdDeviation="4" result="blur" />
@@ -69,8 +69,8 @@ function LogoMark({ className = "" }: { className?: string }) {
         strokeOpacity="0.76"
         strokeWidth="4.4"
       />
-      <circle cx="50" cy="25" fill="#60A5FA" r="4.8" />
-      <path d="m72 8 2.5 5.9 6 2.1-6 2.2L72 24l-2.6-5.8-6-2.2 6-2.1L72 8Z" fill="#A78BFA" />
+      <circle cx="50" cy="25" fill="#00D5FF" r="4.8" />
+      <path d="m72 8 2.5 5.9 6 2.1-6 2.2L72 24l-2.6-5.8-6-2.2 6-2.1L72 8Z" fill="#FF4FD8" />
     </svg>
   );
 }

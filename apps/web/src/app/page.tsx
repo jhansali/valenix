@@ -12,12 +12,12 @@ const features = [
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#F8FAFC] text-ink">
+    <main className="min-h-screen bg-[#FBF7FF] text-ink">
       <section className="relative min-h-screen overflow-hidden px-4 py-5 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[#F8FAFC]" />
-        <div className="absolute right-0 top-0 h-40 w-1/2 bg-[#7DD3FC] sm:h-48 lg:w-1/3" />
-        <div className="absolute bottom-0 left-0 h-40 w-1/3 bg-[#DBEAFE]" />
-        <div className="absolute inset-x-4 bottom-4 top-20 rounded-lg border border-[#DBEAFE] bg-white/70 shadow-2xl backdrop-blur-sm sm:inset-x-6 lg:inset-x-8" />
+        <div className="absolute inset-0 bg-[#FBF7FF]" />
+        <div className="absolute right-0 top-0 h-40 w-1/2 bg-[#22D3EE] sm:h-48 lg:w-1/3" />
+        <div className="absolute bottom-0 left-0 h-40 w-1/3 bg-[#CFFAFE]" />
+        <div className="absolute inset-x-4 bottom-4 top-20 rounded-lg border border-[#CFFAFE] bg-white/70 shadow-2xl backdrop-blur-sm sm:inset-x-6 lg:inset-x-8" />
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-2.5rem)] max-w-7xl flex-col">
           <header className="flex items-center justify-between">
@@ -38,7 +38,7 @@ export default function HomePage() {
 
           <div className="grid flex-1 items-center gap-12 py-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(520px,1.08fr)] lg:py-16">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#BFDBFE] bg-white px-3 py-1 text-sm font-medium text-gray-700">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#A5F3FC] bg-white px-3 py-1 text-sm font-medium text-gray-700">
                 <Zap size={15} />
                 Early access opening soon
               </div>
@@ -57,7 +57,7 @@ export default function HomePage() {
                   <ArrowRight size={17} />
                 </Link>
                 <Link
-                  className="flex h-12 items-center justify-center rounded-md border border-[#C7D2FE] bg-white px-5 text-sm font-semibold text-ink hover:bg-gray-50"
+                  className="flex h-12 items-center justify-center rounded-md border border-[#E9D5FF] bg-white px-5 text-sm font-semibold text-ink hover:bg-gray-50"
                   href="/login"
                 >
                   I already joined
@@ -66,7 +66,7 @@ export default function HomePage() {
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {features.map((feature) => (
                   <div className="flex items-center gap-2 text-sm font-medium text-gray-700" key={feature}>
-                    <span className="grid h-5 w-5 place-items-center rounded-full bg-[#7DD3FC] text-ink">
+                    <span className="grid h-5 w-5 place-items-center rounded-full bg-[#22D3EE] text-ink">
                       <Check size={13} />
                     </span>
                     {feature}
@@ -76,7 +76,7 @@ export default function HomePage() {
             </div>
 
             <div className="min-w-0">
-              <div className="rounded-lg border border-[#C7D2FE] bg-[#111827] p-3 shadow-2xl sm:p-4">
+              <div className="rounded-lg border border-[#E9D5FF] bg-[#111827] p-3 shadow-2xl sm:p-4">
                 <div className="grid overflow-hidden rounded-md bg-white md:min-h-[31rem] md:grid-cols-[13rem_1fr] xl:grid-cols-[15rem_1fr]">
                   <aside className="hidden border-r border-line bg-panel p-3 md:block">
                     <div className="mb-4 flex h-10 items-center gap-2 rounded-md border border-line bg-white px-3 text-sm font-semibold">
