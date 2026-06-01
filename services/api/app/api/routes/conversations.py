@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user
+from app.api.deps import get_active_user
 from app.db.models import User
 from app.db.session import get_db
 from app.schemas.conversation import (
@@ -25,7 +25,7 @@ router = APIRouter(prefix="/conversations", tags=["conversations"])
 
 
 @router.get("", response_model=ConversationListResponse)
-async def index(db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)):
+async def index(db: AsyncSession = Depends(get_db), user: User = Depends(get_active_user)):
     conversations = await list_conversations(db, user)
     return {
         "items": [conversation_to_summary(conversation) for conversation in conversations],
@@ -37,7 +37,7 @@ async def index(db: AsyncSession = Depends(get_db), user: User = Depends(get_cur
 async def create(
     payload: ConversationCreateRequest,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(get_current_user),
+    user: User = Depends(get_active_user),
 ):
     conversation = await create_conversation(
         db, user, title=payload.title or "New chat", model=payload.model
@@ -49,7 +49,7 @@ async def create(
 async def show(
     conversation_id: UUID,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(get_current_user),
+    user: User = Depends(get_active_user),
 ):
     conversation = await get_conversation(db, user, conversation_id)
     return conversation_to_detail(conversation)
@@ -60,7 +60,7 @@ async def update(
     conversation_id: UUID,
     payload: ConversationUpdateRequest,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(get_current_user),
+    user: User = Depends(get_active_user),
 ):
     conversation = await get_conversation(db, user, conversation_id)
     conversation.title = payload.title
@@ -72,7 +72,7 @@ async def update(
 async def delete(
     conversation_id: UUID,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(get_current_user),
+    user: User = Depends(get_active_user),
 ):
     conversation = await get_conversation(db, user, conversation_id)
     await db.delete(conversation)

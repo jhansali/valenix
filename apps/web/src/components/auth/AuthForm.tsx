@@ -19,6 +19,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    router.prefetch("/waitlist");
     router.prefetch("/chat");
   }, [router]);
 
@@ -28,12 +29,16 @@ export function AuthForm({ mode }: AuthFormProps) {
     setLoading(true);
 
     try {
-      if (mode === "signup") {
-        await api.signup({ email, password, name: name || undefined });
+      const user =
+        mode === "signup"
+          ? await api.signup({ email, password, name: name || undefined })
+          : await api.login({ email, password });
+
+      if (user.status === "active") {
+        router.replace("/chat");
       } else {
-        await api.login({ email, password });
+        router.replace("/waitlist");
       }
-      router.replace("/chat");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Authentication failed.");
     } finally {

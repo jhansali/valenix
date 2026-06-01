@@ -27,6 +27,7 @@ def user_response(user: User) -> UserResponse:
         email=user.email,
         name=user.name,
         tier=user.tier,
+        status=user.status,
         emailVerified=bool(user.email_verified_at),
     )
 
@@ -139,7 +140,8 @@ async def google_callback(
         avatar_url=profile.get("picture"),
         email_verified=bool(profile.get("email_verified")),
     )
-    response = RedirectResponse(f"{settings.frontend_origin}/chat")
+    destination = "/chat" if user.status == "active" else "/waitlist"
+    response = RedirectResponse(f"{settings.frontend_origin}{destination}")
     response.delete_cookie("valenix_oauth_state")
     set_session_cookie(response, user)
     return response

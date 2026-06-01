@@ -26,7 +26,7 @@ async def create_user_with_password(
     if existing.scalar_one_or_none():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
 
-    user = User(email=normalized_email, name=name, tier="free", status="active")
+    user = User(email=normalized_email, name=name, tier="free", status="waitlisted")
     db.add(user)
     await db.flush()
     db.add(PasswordCredential(user_id=user.id, password_hash=hash_password(password)))
@@ -40,7 +40,7 @@ async def authenticate_with_password(db: AsyncSession, *, email: str, password: 
     result = await db.execute(
         select(User)
         .options(selectinload(User.password_credential))
-        .where(User.email == normalized_email, User.status == "active")
+        .where(User.email == normalized_email, User.status != "suspended")
     )
     user = result.scalar_one_or_none()
     if not user or not user.password_credential:
@@ -75,6 +75,8 @@ async def get_or_create_google_user(
     if oauth_account:
         user_result = await db.execute(select(User).where(User.id == oauth_account.user_id))
         user = user_result.scalar_one()
+        if user.status == "suspended":
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is suspended")
         user.last_login_at = datetime.now(UTC)
         await db.commit()
         await db.refresh(user)
@@ -82,13 +84,16 @@ async def get_or_create_google_user(
 
     user_result = await db.execute(select(User).where(User.email == normalized_email))
     user = user_result.scalar_one_or_none()
+    if user and user.status == "suspended":
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is suspended")
+
     if not user:
         user = User(
             email=normalized_email,
             name=name,
             avatar_url=avatar_url,
             tier="free",
-            status="active",
+            status="waitlisted",
             email_verified_at=datetime.now(UTC) if email_verified else None,
             last_login_at=datetime.now(UTC),
         )

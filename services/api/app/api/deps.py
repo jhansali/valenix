@@ -21,9 +21,14 @@ async def get_current_user(
     if not user_id:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid session")
 
-    result = await db.execute(select(User).where(User.id == user_id, User.status == "active"))
+    result = await db.execute(select(User).where(User.id == user_id, User.status != "suspended"))
     user = result.scalar_one_or_none()
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid session")
     return user
 
+
+async def get_active_user(user: User = Depends(get_current_user)) -> User:
+    if user.status != "active":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Waitlist access pending")
+    return user

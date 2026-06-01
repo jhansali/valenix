@@ -3,6 +3,7 @@ export type User = {
   email: string;
   name: string | null;
   tier: string;
+  status: "waitlisted" | "active" | "suspended" | string;
   emailVerified: boolean;
 };
 
@@ -25,4 +26,3 @@ export type Message = {
 export type ConversationDetail = ConversationSummary & {
   messages: Message[];
 };
-

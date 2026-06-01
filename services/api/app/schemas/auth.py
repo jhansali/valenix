@@ -17,5 +17,5 @@ class UserResponse(BaseModel):
     email: str
     name: str | None
     tier: str
+    status: str
     emailVerified: bool
-

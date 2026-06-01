@@ -23,10 +23,15 @@ export function ChatLayout({
   const [deletingChatId, setDeletingChatId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!loading && user && user.status !== "active") {
+      router.replace("/waitlist");
+      return;
+    }
+
     if (!loading && user) {
       api.listConversations().then(setConversations).catch(() => setConversations([]));
     }
-  }, [loading, user]);
+  }, [loading, router, user]);
 
   async function createChat() {
     if (creatingChat) return;
